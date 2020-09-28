@@ -1,5 +1,4 @@
 {% extends "issue/base.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
 <div class="content-section">
     <div class="media">
@@ -7,21 +6,8 @@
       <div class="media-body">
         <h2 class="account-heading">{{user.username}}</h2>
         <p class="text-secondary"> Email: {{user.email}}</p>
+        <small class="text-muted"><a href="{% url 'update_profile' %}">Update Profile</a></small>
       </div>
     </div>
-    <!--form for updation-->
-    <form method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      <fieldset class ="form-group">
-          <legend class="border-bottom mb-4">
-              Update Profile:
-          </legend>
-          {{u_form| crispy}}
-          {{p_form| crispy}}
-      </fieldset>
-      <div class="form-group">
-          <button class="btn btn-info" type="submit">Update</button>
-      </div>
-    </form>
-  </div>
+</div>
 {%endblock content%}

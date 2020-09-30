@@ -1,6 +1,7 @@
 {% extends "issue/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+<div class="col-md-9">
 <div class="content-section">
     <div class="media">
       <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
@@ -24,4 +25,5 @@
       </div>
     </form>
   </div>
+</div>
 {%endblock content%}

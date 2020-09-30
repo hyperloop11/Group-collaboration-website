@@ -1,13 +1,31 @@
 {% extends "issue/base.html" %}
 {% block content %}
+<div class="col-md-9">
     <article class="media content-section">
         <div class="media-body">
-        <div class="article-metadata">
-            <a class="mr-2" href="{% url 'profile' %}">{{ object.author }}</a>
-            <small class="text-muted">{{ object.date_created|date:"j M, Y"}}</small>
-        </div>
+            <div class="article-metadata">
+                <small class="text-muted">{{ object.date_created|date:"j M, Y"}}</small>
+            </div>
         <h2><a class="article-title">{{ object.title }}</a></h2>
-        <p class="article-content">{{ object.content }}</p>
+        <p class="article-content">{{ object.formatted_markdown | safe }}</p>
         </div>
     </article>
+</div>
+<div class="col-md-3">
+    <article class="media content-section">
+        <div class="media-body">
+            <h3>Priority:</h3>
+            <p class="article-content"> {{object.priority.title}} </p>
+        </div>
+    </article>
+    <article class="media content-section">
+        <div class="media-body">
+            <h3>Assigned to:</h3>
+            <hr>
+            {% for an_author in object.author.all %}
+                <p><a class="mr-2" href="{% url 'profile' %}">{{ an_author }}</a></p>
+            {%endfor%}
+        </div>
+    </article>
+</div>
 {% endblock content %}

@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'issue.apps.IssueConfig',
     'users.apps.UsersConfig',
+    'markdownx',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -130,3 +131,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'issue-home' #later redirect to dashboard.
 LOGIN_URL = 'login'
+
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')

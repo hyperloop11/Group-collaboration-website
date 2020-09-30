@@ -25,5 +25,6 @@ class IssueCreateView(CreateView):
     fields= ['title', 'content', 'priority']
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.save()
+        form.instance.author.add(self.request.user)
         return super().form_valid(form)

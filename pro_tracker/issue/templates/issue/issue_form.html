@@ -1,18 +1,20 @@
 {% extends "issue/base.html" %}
 {% load crispy_forms_tags %}
-{% block content %}
-    <div class="content-section">
-        <form method="POST">
-            {% csrf_token %}
-            <fieldset class ="form-group">
-                <legend class="border-bottom mb-4">
-                    New Issue 
-                </legend>
-                {{form| crispy}}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-info" type="submit">Create Issue</button>
-            </div>
-        </form>
+    {% block content %}
+    <div class="col-md-9">
+        <div class="content-section">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class ="form-group">
+                    <legend class="border-bottom mb-4">
+                        New Issue 
+                    </legend>
+                    {{form| crispy}}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-info" type="submit">Create Issue</button>
+                </div>
+            </form>
+        </div>
     </div>
-{%endblock content%}
+    {%endblock content%}

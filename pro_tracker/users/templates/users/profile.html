@@ -1,5 +1,6 @@
 {% extends "issue/base.html" %}
 {% block content %}
+<div class="col-md-9">
 <div class="content-section">
     <div class="media">
       <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
@@ -9,5 +10,6 @@
         <small class="text-muted"><a href="{% url 'update_profile' %}">Update Profile</a></small>
       </div>
     </div>
+</div>
 </div>
 {%endblock content%}

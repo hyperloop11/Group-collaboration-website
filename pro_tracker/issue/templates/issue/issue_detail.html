@@ -27,5 +27,14 @@
             {%endfor%}
         </div>
     </article>
+    {% if user in object.author.all or perms.issue.change_issue %}
+    <article class="media content-section">
+        <div class="media-body">
+            <h3>Actions: </h3>
+            <hr>
+            <a class="btn btn-secondary mt-1 mb-2" href="{% url 'issue-update' object.id %}">Update</a>
+        </div>
+    </article>
+    {%endif%}
 </div>
 {% endblock content %}

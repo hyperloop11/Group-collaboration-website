@@ -1,6 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import (
+    ListView, DetailView,
+    CreateView, UpdateView,
+)
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Issue
+from django.contrib.auth.models import Permission
 
 def home(request):
     context = {
@@ -20,7 +25,7 @@ class IssueListView(ListView):
 class IssueDetailView(DetailView):
     model = Issue
 
-class IssueCreateView(CreateView):
+class IssueCreateView(LoginRequiredMixin, CreateView):
     model = Issue
     fields= ['title', 'content', 'priority']
 
@@ -28,3 +33,19 @@ class IssueCreateView(CreateView):
         form.save()
         form.instance.author.add(self.request.user)
         return super().form_valid(form)
+
+class IssueUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Issue
+    fields= ['title', 'content', 'priority']
+
+    def form_valid(self, form):
+        form.save()
+        form.instance.author.add(self.request.user)
+        return super().form_valid(form)
+
+    def test_func(self):
+        post= self.get_object()
+        if self.request.user in post.author.all() or self.request.user.has_perm('issue.change_issue'):
+            return True
+        else:
+            return False

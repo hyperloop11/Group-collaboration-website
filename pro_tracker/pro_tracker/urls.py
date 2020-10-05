@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from users import views as user_views
+from issue import views as issue_views
 #for static files, change during production
 from django.conf import settings
 from django.conf.urls.static import static
@@ -25,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('issue/', include('issue.urls')),
     path('register/',user_views.register, name="register"),
-    path('register/',user_views.register, name="register"),
+    path('user/<str:username>',issue_views.UserIssueListView.as_view(), name="user-issues"),
     path('update_profile/',user_views.update_profile, name="update_profile"),
     path('profile/',user_views.profile, name="profile"),
     path('login/',auth_views.LoginView.as_view(template_name='users/login.html'), name="login"),

@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import (
     ListView, DetailView,
     CreateView, UpdateView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Issue
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import User, Permission
 
 def home(request):
     context = {
@@ -34,9 +34,14 @@ class IssueCreateView(LoginRequiredMixin, CreateView):
         form.instance.author.add(self.request.user)
         return super().form_valid(form)
 
+    def view_type(self):
+        return "Create"
+
+
 class IssueUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Issue
-    fields= ['title', 'content', 'priority']
+    fields= ['title', 'content', 'priority', 'author']
+    #form_class=UserForm
 
     def form_valid(self, form):
         form.save()
@@ -49,3 +54,20 @@ class IssueUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         else:
             return False
+
+    def view_type(self):
+        return "Update"
+
+class UserIssueListView(ListView):
+    model = Issue
+    template_name='issue/user_issues.html'
+    context_object_name='posts'
+    
+    #ORDERING
+    def get_queryset(self):
+        #l1= list(author.objects.all())
+        #l1=[author for author in Issue.author.objects.all()]
+        user = get_object_or_404( User, username=self.kwargs.get('username'))
+        return user.issue_set.all().order_by('-id')
+
+#to fix kwargs in issue list view, better not inherit from listView and make a function.

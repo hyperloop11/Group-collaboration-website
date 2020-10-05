@@ -1,0 +1,29 @@
+{% extends "issue/base.html" %}
+{% block content %}
+<div class="col-md-9">
+    <div class="content-section">
+        <div class="media">
+        <img class="rounded-circle account-img" src="{{ view.kwargs.pic_url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{view.kwargs.username}}</h2>
+            <p class="text-secondary"> Email: {{view.kwargs.email}}</p>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-9">
+    <h2 class ="mb-3">Projects by {{view.kwargs.username}}</h2>
+    {% for post in posts %}
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="{% url 'user-issues' post.author.first.username %}">{{ post.author.first }}</a>
+                <small class="text-muted">{{ post.date_created|date:"j M, Y"}}</small>
+            </div>
+                <h2><a class="article-title" href="{% url 'issue-detail' post.id %}">{{ post.title }}</a></h2>
+                <p class="article-content">{{ post.body_summary | safe }}</p>
+        </div>
+    </article>
+    {%endfor%}
+</div>
+{%endblock content%}

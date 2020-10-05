@@ -23,7 +23,7 @@
             <h3>Assigned to:</h3>
             <hr>
             {% for an_author in object.author.all %}
-                <p><a class="mr-2" href="{% url 'profile' %}">{{ an_author }}</a></p>
+                <p><a class="mr-2" href="{% url 'user-issues' an_author %}">{{ an_author }}</a></p>
             {%endfor%}
         </div>
     </article>

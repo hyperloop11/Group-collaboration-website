@@ -5,6 +5,7 @@ from django.urls import reverse
 from django import forms
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
+from django.forms import ModelForm
 
 
 class Issue(models.Model):
@@ -31,3 +32,11 @@ class Issue(models.Model):
 
     def body_summary(self):
         return markdownify(self.content[:200] + "...")
+
+# class UserForm(ModelForm):
+#     class Meta:
+#         fields= ['title', 'content', 'priority', 'author']
+
+#     def __init__(self, *args, **kwargs):
+#         super(UserForm, self).__init__(*args, **kwargs)
+#         self.fields['author'].queryset = User.objets.all().exclude(username=title.author.get(id=1))

@@ -40,3 +40,15 @@ class Issue(models.Model):
 #     def __init__(self, *args, **kwargs):
 #         super(UserForm, self).__init__(*args, **kwargs)
 #         self.fields['author'].queryset = User.objets.all().exclude(username=title.author.get(id=1))
+
+class Comment(models.Model):
+    issue= models.ForeignKey(Issue, related_name="comments", on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    body = MarkdownxField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def formatted_markdown(self):
+        return markdownify(self.body)
+
+    def __str__(self):
+        return f'{self.issue.title}- {self.name}'

@@ -10,6 +10,22 @@
         <p class="article-content">{{ object.formatted_markdown | safe }}</p>
         </div>
     </article>
+
+    <!--comments-->
+    <article class="media content-section">
+        <div class="media-body">
+        <h3><a class="article-title">Comments:</a></h3>
+        <hr>
+            {%if not object.comments.all %}
+                <p>No comments yet...</p>
+            {% else %}
+                {% for comment in object.comments.all %}
+                    <h4>{{ comment.name }} - {{ comment.date_added | date:"j M, Y"}}</h4>
+                    <p>{{comment.formatted_markdown | safe}}</p>
+                {%endfor%}
+            {%endif%}
+        </div>
+    </article>
 </div>
 <div class="col-md-3">
     <article class="media content-section">

@@ -43,6 +43,10 @@ class IssueUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields= ['title', 'content', 'priority', 'author']
     #form_class=UserForm
 
+    # def __init__(self, *args, **kwargs):
+    #     super(IssueUpdateView, self).__init__(*args, **kwargs)
+    #     self.fields['author'].queryset = User.objects.exclude(username=)
+    
     def form_valid(self, form):
         form.save()
         form.instance.author.add(self.request.user)
@@ -58,16 +62,13 @@ class IssueUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def view_type(self):
         return "Update"
 
-class UserIssueListView(ListView):
-    model = Issue
-    template_name='issue/user_issues.html'
-    context_object_name='posts'
-    
-    #ORDERING
-    def get_queryset(self):
-        #l1= list(author.objects.all())
-        #l1=[author for author in Issue.author.objects.all()]
-        user = get_object_or_404( User, username=self.kwargs.get('username'))
-        return user.issue_set.all().order_by('-id')
-
 #to fix kwargs in issue list view, better not inherit from listView and make a function.
+
+def UserIssue(request,username):
+    #user = get_object_or_404( User,User.objects.get(username=username))
+    user = User.objects.get(username=username)
+    context = {
+        'user': user,
+        'posts': user.issue_set.all().order_by('-id')
+    }
+    return render(request, 'issue/user_issues.html', context)

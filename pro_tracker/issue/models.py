@@ -6,7 +6,8 @@ from django import forms
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 from django.forms import ModelForm
-
+#from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Issue(models.Model):
     PRIORITY_CHOICES= (
@@ -16,10 +17,13 @@ class Issue(models.Model):
     )
 
     title=models.CharField(max_length=100)
-    content= MarkdownxField()
+    #content= MarkdownxField()
+    #content= RichTextField(blank=True, null=True)
+    content=RichTextUploadingField(verbose_name='Body',null=True,blank=True)
     date_created=models.DateTimeField(default=timezone.now)
     priority=models.CharField(max_length=30, choices=PRIORITY_CHOICES)
     author = models.ManyToManyField(User)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -43,12 +47,12 @@ class Issue(models.Model):
 
 class Comment(models.Model):
     issue= models.ForeignKey(Issue, related_name="comments", on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    body = MarkdownxField()
+    author = models.CharField(max_length=100)
+    body = RichTextUploadingField(verbose_name='Body',null=True,blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def formatted_markdown(self):
         return markdownify(self.body)
 
     def __str__(self):
-        return f'{self.issue.title}- {self.name}'
+        return f'Comment on {self.issue.title} by {self.author}'

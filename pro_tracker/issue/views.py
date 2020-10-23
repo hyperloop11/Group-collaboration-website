@@ -6,6 +6,9 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Issue
 from django.contrib.auth.models import User, Permission
+from .forms import IssueUpdateForm, CommentForm
+from django.views.generic.edit import FormMixin
+from django.urls import reverse
 
 def home(request):
     context = {
@@ -17,13 +20,37 @@ class IssueListView(ListView):
     model = Issue
     template_name='issue/home.html'
     context_object_name='posts'
+    paginate_by=6
 
     #ORDERING
     def get_queryset(self):
         return Issue.objects.order_by('-id')
 
-class IssueDetailView(DetailView):
+class IssueDetailView(FormMixin, DetailView):
     model = Issue
+    form_class=CommentForm
+
+    def get_success_url(self):
+        return reverse('issue-detail', kwargs={'pk': self.object.id})
+
+    def get_context_data(self, **kwargs):
+        context = super(IssueDetailView, self).get_context_data(**kwargs)
+        context['form'] = CommentForm(initial={'issue': self.object.id, 'author': self.request.user})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.save()
+        return super(IssueDetailView, self).form_valid(form)
+
+
 
 class IssueCreateView(LoginRequiredMixin, CreateView):
     model = Issue
@@ -40,12 +67,17 @@ class IssueCreateView(LoginRequiredMixin, CreateView):
 
 class IssueUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Issue
-    fields= ['title', 'content', 'priority', 'author']
+    form_class = IssueUpdateForm
+    # leader =self.get_object().author.first()
+    # #author = forms.ModelChoiceField(queryset=User.objects.exclude(leader))
+    
+    # form_class.fields['author'].queryset=User.objects.exclude(leader)
     #form_class=UserForm
 
-    # def __init__(self, *args, **kwargs):
-    #     super(IssueUpdateView, self).__init__(*args, **kwargs)
-    #     self.fields['author'].queryset = User.objects.exclude(username=)
+    # def __init__(self, *args):
+    #     super(IssueUpdateView, self).__init__(*args)
+    #     leader =self.get_object().author.first()
+    #     self.fields['author'].queryset = User.objects.exclude(leader)
     
     def form_valid(self, form):
         form.save()
@@ -60,7 +92,7 @@ class IssueUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return False
 
     def view_type(self):
-        return "Update"
+        return "Update" 
 
 #to fix kwargs in issue list view, better not inherit from listView and make a function.
 

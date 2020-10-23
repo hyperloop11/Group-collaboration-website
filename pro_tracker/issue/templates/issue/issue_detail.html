@@ -1,4 +1,6 @@
 {% extends "issue/base.html" %}
+{% load crispy_forms_tags %}
+
 {% block content %}
 <div class="col-md-9">
     <article class="media content-section">
@@ -15,23 +17,46 @@
     <article class="media content-section">
         <div class="media-body">
         <h3><a class="article-title">Comments:</a></h3>
-        <hr>
             {%if not object.comments.all %}
                 <p>No comments yet...</p>
             {% else %}
                 {% for comment in object.comments.all %}
-                    <h4>{{ comment.name }} - {{ comment.date_added | date:"j M, Y"}}</h4>
-                    <p>{{comment.formatted_markdown | safe}}</p>
+                    <hr>
+                    <h4 style="display: inline;">{{ comment.author }} - <h5 style="display: inline;" class="text-muted">{{ comment.date_added | date:"j M, Y"}}</h5></h4>
+                    <p>{{comment.body | safe}}</p>
                 {%endfor%}
             {%endif%}
+        </div>
+    </article>
+
+    <article class="media content-section">
+        <div class="media-body">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class ="form-group">
+                    <legend class="border-bottom mb-4">
+                        Add a comment
+                    </legend>
+                    {{form| crispy}}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-info" type="submit">Submit</button>
+                </div>
+            </form>
         </div>
     </article>
 </div>
 <div class="col-md-3">
     <article class="media content-section">
         <div class="media-body">
-            <h3>Priority:</h3>
-            <p class="article-content"> {{object.priority.title}} </p>
+            {% if object.completed %}
+                <br>
+                <h6>Completed task</h6>
+                <br>
+            {% else %}
+                <h3>Priority:</h3>
+                <p class="article-content"> {{object.priority.title}} </p>
+            {%endif%}
         </div>
     </article>
     <article class="media content-section">
@@ -48,7 +73,10 @@
         <div class="media-body">
             <h3>Actions: </h3>
             <hr>
-            <a class="btn btn-secondary mt-1 mb-2" href="{% url 'issue-update' object.id %}">Update</a>
+            <a class="btn btn-secondary mt-1 mb-2 mr-3" href="{% url 'issue-update' object.id %}">Update</a>
+            {% if not object.completed %}
+            <a class="btn btn-success mt-1 mb-2" href="#">Mark Completed</a>
+            {%endif%}
         </div>
     </article>
     {%endif%}

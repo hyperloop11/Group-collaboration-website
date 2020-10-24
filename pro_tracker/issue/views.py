@@ -9,6 +9,7 @@ from django.contrib.auth.models import User, Permission
 from .forms import IssueUpdateForm, CommentForm
 from django.views.generic.edit import FormMixin
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def home(request):
     context = {
@@ -24,7 +25,17 @@ class IssueListView(ListView):
 
     #ORDERING
     def get_queryset(self):
-        return Issue.objects.order_by('-id')
+        return Issue.objects.filter(completed=False).order_by('-id')
+
+class OldIssueListView(ListView):
+    model = Issue
+    template_name='issue/home.html'
+    context_object_name='posts'
+    paginate_by=6
+
+    #ORDERING
+    def get_queryset(self):
+        return Issue.objects.filter(completed=True).order_by('-id')
 
 class IssueDetailView(FormMixin, DetailView):
     model = Issue
@@ -98,9 +109,43 @@ class IssueUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 def UserIssue(request,username):
     #user = get_object_or_404( User,User.objects.get(username=username))
-    user = User.objects.get(username=username)
+    this_user = get_object_or_404(User, username=username)
+
+    posts = this_user.issue_set.filter(completed=False).order_by('-id')
+    paginator = Paginator(posts, 2) # Show 4 blogs per page.
+
+    page_number = request.GET.get('page', 1)
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
     context = {
-        'user': user,
-        'posts': user.issue_set.all().order_by('-id')
+        'this_user': this_user,
+        #'posts': this_user.issue_set.all().order_by('-id'),
+        'posts': page_obj,
+    }
+    return render(request, 'issue/user_issues.html', context)
+
+def UserIssueArchives(request,username):
+    this_user = get_object_or_404(User, username=username)
+
+    posts = this_user.issue_set.filter(completed=True).order_by('-id')
+    paginator = Paginator(posts, 2) # Show 4 blogs per page.
+
+    page_number = request.GET.get('page', 1)
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
+    context = {
+        'this_user': this_user,
+        #'posts': this_user.issue_set.all().order_by('-id'),
+        'posts': page_obj,
     }
     return render(request, 'issue/user_issues.html', context)

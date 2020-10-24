@@ -1,6 +1,17 @@
 {% extends "issue/base.html" %}
 {% block content %}
   <div class="col-md-9">
+    {% if posts.first.completed %}
+    <div class="col-md-5">
+      <h1 style="align-content: center;">Archives</h1>
+      <br>
+    </div>
+    {% else %}
+    <div class="col-md-5">
+      <h1 style="align-content: center;">Current Issues</h1>
+      <br>
+    </div>
+    {%endif%}
     {% for post in posts %}
       <article class="media content-section">
           <div class="media-body">

@@ -22,8 +22,9 @@
             {% else %}
                 {% for comment in object.comments.all %}
                     <hr>
-                    <h4 style="display: inline;">{{ comment.author }} - <h5 style="display: inline;" class="text-muted">{{ comment.date_added | date:"j M, Y"}}</h5></h4>
                     <p>{{comment.body | safe}}</p>
+                    <h6 style="display: inline;">{{ comment.author }} - <h6 style="display: inline;" class="text-muted">{{ comment.date_added | date:"j M, Y"}}</h6></h6>
+                        
                 {%endfor%}
             {%endif%}
         </div>
@@ -64,7 +65,8 @@
             <h3>Assigned to:</h3>
             <hr>
             {% for an_author in object.author.all %}
-                <p><a class="mr-2" href="{% url 'user-issues' an_author %}">{{ an_author }}</a></p>
+            <!-- <img class="rounded-circle float-left account-img" style="border-radius: 10% ;" src="{{ user.profile.image.url }}"> -->
+             <p><a class="mr-2" href="{% url 'user-issues' an_author %}">{{ an_author }}</a></p>
             {%endfor%}
         </div>
     </article>
@@ -75,7 +77,7 @@
             <hr>
             <a class="btn btn-secondary mt-1 mb-2 mr-3" href="{% url 'issue-update' object.id %}">Update</a>
             {% if not object.completed %}
-            <a class="btn btn-success mt-1 mb-2" href="#">Mark Completed</a>
+            <a class="btn btn-success mt-1 mb-2" href="{% url 'issue-update' object.id %}#completed">Mark Completed</a>
             {%endif%}
         </div>
     </article>

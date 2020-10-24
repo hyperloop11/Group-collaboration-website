@@ -3,18 +3,26 @@
 <div class="col-md-9">
     <div class="content-section">
         <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <img class="rounded-circle account-img" src="{{ this_user.profile.image.url }}">
         <div class="media-body">
-            <h2 class="account-heading">{{user.username}}</h2>
-            <p class="text-secondary"> Email: {{user.email}}</p>
-            {% if self.request.user is user %}<small class="text-muted"><a href="{% url 'update_profile' %}">Update Profile</a></small>
+            <h2 class="account-heading">{{this_user.username}}</h2>
+            <p class="text-secondary"> Email: {{this_user.email}}</p>
+            {% if self.request.user is this_user %}<small class="text-muted"><a href="{% url 'update_profile' %}">Update Profile</a></small>
             {% endif %}
         </div>
         </div>
     </div>
 </div>
 <div class="col-md-9">
-    <h2 class ="mb-3">Projects by {{user.username}}</h2>
+    {% if posts.paginator.count %}
+        {% if not posts.first.completed %}
+            <h2 class ="mb-3">Ongoing Projects by {{this_user.username}} ({{posts.paginator.count}})</h2>
+        {% else %}
+            <h2 class ="mb-3">Completed Projects by {{this_user.username}} ({{posts.paginator.count}})</h2>
+        {% endif %}
+    {% else %}
+        <p class ="mb-3">Nothing to show here...</p>
+    {% endif %}
     {% for post in posts %}
     <article class="media content-section">
         <div class="media-body">
@@ -27,5 +35,33 @@
         </div>
     </article>
     {%endfor%}
+
+<!--Pagintion code-->
+    <div class="d-flex justify-content-center">
+    {% if posts.has_other_pages %}
+
+        {% if posts.has_previous %}
+            <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ page_obj.previous_page_number }}">
+                <<
+            </a>
+        {% endif %}
+
+        {% for num in posts.paginator.page_range %}
+            {% if posts.number == num %}
+                <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ num }}">{{num}}</a>
+            {% elif num > posts.number|add:'-2' and num < posts.number|add:'2' %}
+                <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ num }}">{{num}}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+            <a class="btn btn-outline-info mb-4 mr-2" href="?page={{page_obj.next_page_number}}">
+                >>
+            </a>
+        {% endif %}
+
+    {% endif %}
+        </div>
+    </div>
 </div>
 {%endblock content%}

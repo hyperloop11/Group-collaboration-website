@@ -30,7 +30,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('issue/', include('issue.urls')),
     path('register/',user_views.register, name="register"),
-    path('user/<str:username>',issue_views.UserIssue, name="user-issues"),
+    path('user/<str:username>/',issue_views.UserIssue, name="user-issues"),
+    path('user/<str:username>/archives/',issue_views.UserIssueArchives, name="old-user-issues"),
     path('update_profile/',user_views.update_profile, name="update_profile"),
     path('profile/',user_views.profile, name="profile"),
     path('login/',auth_views.LoginView.as_view(template_name='users/login.html'), name="login"),
@@ -39,6 +40,7 @@ urlpatterns = [
     #path('ckeditor/', include('ckeditor_uploader.urls'))
     url(r'^ckeditor/upload/', login_required(views.upload), name='ckeditor_upload'),
     url(r'^ckeditor/browse/', never_cache(login_required(views.browse)), name='ckeditor_browse'),
+    path('dashboard/',user_views.dashboard, name="dashboard"),
 ]
 
 if settings.DEBUG:

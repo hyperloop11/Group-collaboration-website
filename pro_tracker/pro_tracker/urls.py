@@ -40,7 +40,8 @@ urlpatterns = [
     #path('ckeditor/', include('ckeditor_uploader.urls'))
     url(r'^ckeditor/upload/', login_required(views.upload), name='ckeditor_upload'),
     url(r'^ckeditor/browse/', never_cache(login_required(views.browse)), name='ckeditor_browse'),
-    path('dashboard/',user_views.dashboard, name="dashboard"),
+    path('',user_views.dashboard, name="dashboard"),
+    path('priority_data/', user_views.result_data, name="priority")
 ]
 
 if settings.DEBUG:

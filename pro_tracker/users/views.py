@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required 
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from issue.models import Issue
+from django.http import JsonResponse
 
 def register(request):
     if request.method== 'POST':
@@ -46,3 +48,23 @@ def profile(request):
 @login_required
 def dashboard(request):
     return render(request,'users/dashboard.html')
+
+def result_data(request):
+    issue = request.user.issue_set.all()
+    num_high = issue.filter(priority='high').count()
+    num_medium = issue.filter(priority='medium').count()
+    num_low = issue.filter(priority='low').count()
+
+    priority_data=[
+        {'high': num_high},
+        {'medium': num_medium},
+        {'low': num_low},
+    ]
+    print(priority_data)
+    return JsonResponse(priority_data, safe=False)
+
+
+
+
+
+    

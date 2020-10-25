@@ -41,7 +41,7 @@
     {% if posts.has_other_pages %}
 
         {% if posts.has_previous %}
-            <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ page_obj.previous_page_number }}">
+            <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ posts.previous_page_number }}">
                 <<
             </a>
         {% endif %}
@@ -55,7 +55,7 @@
         {% endfor %}
 
         {% if posts.has_next %}
-            <a class="btn btn-outline-info mb-4 mr-2" href="?page={{page_obj.next_page_number}}">
+            <a class="btn btn-outline-info mb-4 mr-2" href="?page={{posts.next_page_number}}">
                 >>
             </a>
         {% endif %}

@@ -16,13 +16,13 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
           <div class="container">
-            <a class="navbar-brand mr-4" href="/">Website</a>
+            <a class="navbar-brand mr-4" href="{% url 'dashboard' %}">Website</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarToggle">
               <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="#">Dashboard</a>
+                <a class="nav-item nav-link" href="{% url 'dashboard' %}">Dashboard</a>
                 <a class="nav-item nav-link" href="{% url 'issue-home' %}">Issues</a>
                 {% if user.is_authenticated %}
                   <a class="nav-item nav-link" href="{% url 'issue-create' %}">Create</a>

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from issue.models import Issue
 from django.http import JsonResponse
+from datetime import date, timedelta
 
 def register(request):
     if request.method== 'POST':
@@ -47,7 +48,16 @@ def profile(request):
 
 @login_required
 def dashboard(request):
-    return render(request,'users/dashboard.html')
+    high_posts=request.user.issue_set.filter(completed=False).filter(priority='high')[:4]
+    medium_posts=request.user.issue_set.filter(completed=False).filter(priority='medium')[:4]
+    low_posts=request.user.issue_set.filter(completed=False).filter(priority='low')[:4]
+
+    context={
+        'high_posts': high_posts,
+        'medium_posts': medium_posts,
+        'low_posts':low_posts, 
+    }
+    return render(request,'users/dashboard.html', context)
 
 def result_data(request):
     issue = request.user.issue_set.all()
@@ -60,9 +70,21 @@ def result_data(request):
         {'medium': num_medium},
         {'low': num_low},
     ]
-    print(priority_data)
+    
     return JsonResponse(priority_data, safe=False)
 
+def finished_data(request):
+    date_today= date.today()
+    date_old=date_today - timedelta(7)
+    issue = request.user.issue_set.filter(date_created__date__gte=date_old, date_created__date__lte=date_today)
+    unfinished= issue.filter(completed=False).count()
+    finished = issue.filter(completed=True).count()
+
+    finished=[
+        {'unfinished': unfinished},
+        {'finished': finished},
+    ]
+    return JsonResponse(finished, safe=False)
 
 
 

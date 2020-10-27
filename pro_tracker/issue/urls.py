@@ -8,8 +8,8 @@ from . import views
 
 urlpatterns = [
     path('', views.IssueListView.as_view(), name='issue-home'),
-    path('archive/', views.OldIssueListView.as_view(), name='issue-archive'),
+    path('archives/', views.OldIssueListView.as_view(), name='issue-archive'),
     path('<int:pk>/', views.IssueDetailView.as_view(), name='issue-detail'),
-    path('<int:pk>/update', views.IssueUpdateView.as_view(), name='issue-update'),
+    path('<int:pk>/update/', views.IssueUpdateView.as_view(), name='issue-update'),
     path('new/', views.IssueCreateView.as_view(), name='issue-create'),
 ]

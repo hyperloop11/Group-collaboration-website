@@ -1,12 +1,66 @@
 {% extends "issue/base.html" %}
 {% block content %}
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-<div class="col-md-9">
-    <p>Hello {{user.username}}</p>
-    <div class ="col-md-9" style="height: 100%; width: 100%;" id="MyChart"></div>
+    <div class="col-md-6">
+        <div class="d-flex justify-content-center"><h3>Unfinished work</h3> </div>
+        <div style="height: 100%; width: 100%;" id="MyChart"></div>
+    </div> 
+    <div class="col-md-6">
+        <div class="d-flex justify-content-center"><h3>Tasks this week</h3></div>
+        <div style="height: 100%; width: 100%;" id="chart-2">
+        </div>
+    </div> 
+    <div class="col-md-4">
+        <br>
+        <div class="d-flex justify-content-center"><h3>High Priority</h3></div>
+        {% for post in high_posts %}
+        <article class="media content-section">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="{% url 'user-issues' post.author.first.username %}">{{ post.author.first }}</a>
+                <small class="text-muted">{{ post.date_created|date:"j M, Y"}}</small>
+              </div>
+              <h3><a class="article-title" href="{% url 'issue-detail' post.id %}">{{ post.title }}</a></h3>
+              <p class="article-content">{{ post.body_summary | safe }}</p>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    <div class="col-md-4">
+        <br>
+        <div class="d-flex justify-content-center"><h3>Medium Priority </h3></div>
+        {% for post in medium_posts %}
+        <article class="media content-section">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="{% url 'user-issues' post.author.first.username %}">{{ post.author.first }}</a>
+                <small class="text-muted">{{ post.date_created|date:"j M, Y"}}</small>
+              </div>
+              <h3><a class="article-title" href="{% url 'issue-detail' post.id %}">{{ post.title }}</a></h3>
+              <p class="article-content">{{ post.body_summary | safe }}</p>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    <div class="col-md-4">
+        <br>
+        <div class="d-flex justify-content-center"><h3>Low Priority </h3></div>
+        {% for post in low_posts %}
+        <article class="media content-section">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="{% url 'user-issues' post.author.first.username %}">{{ post.author.first }}</a>
+                <small class="text-muted">{{ post.date_created|date:"j M, Y"}}</small>
+              </div>
+              <h3><a class="article-title" href="{% url 'issue-detail' post.id %}">{{ post.title }}</a></h3>
+              <p class="article-content">{{ post.body_summary | safe }}</p>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    
 
     <script>
         var state={
@@ -17,7 +71,6 @@
             method: 'GET',
             url: "priority_data",
             success: function(response){
-                console.log('RESPONSE:', response)
                 for(var i in response){
                     var key = Object.keys(response[i])[0]
                     var value = Object.values(response[i])[0]
@@ -25,20 +78,33 @@
                     state.items.push(key)
                     state.values.push(value)
                 }
-                console.log('STATE:', state)
                 buildChart()
             }
         })
 
         function buildChart(){
             var chartData = {
-            "type": "bar",
-            "scale-x" :{
-                "values": state.items
+            "type": "ring",
+            "legend": {
+            
+            },
+            plot: {
+                tooltip: {
+                     text: "%t<br>%v"
+                }
             },
             "series":[
                 {
-                    "values": state.values
+                    "values": [state.values[1]],//state.values
+                    "text": [state.items[1]]
+                },
+                {
+                    "values": [state.values[0]],
+                    "text": [state.items[0]]
+                },
+                {
+                    "values": [state.values[2]],
+                    "text": [state.items[2]]
                 }
             ]
             }
@@ -50,5 +116,49 @@
 
         }
     </script>
-</div>
+    <script>
+        //for chart-2 which will be a vertical bar graph
+        var new_state= []
+
+        $.ajax({
+            method: 'GET',
+            url: "finished_data",
+            success:function(response){
+                new_state.push((response[0]["unfinished"]))
+                new_state.push((response[1])["finished"])
+                buildChart2()
+            }
+        })
+        function buildChart2(){
+            var chartData = {
+                type:"hbar",
+                "scale-x":{
+                    values:[
+                        "done",
+                        "to-do"
+                    ],
+                    "plotarea":{
+                        marginLeft:'80%',
+                        marginRight:'80%',
+                    },
+
+            },
+            series:[
+                {
+                    "values":[
+                        new_state[1],
+                        new_state[0],
+                        
+                    ]
+                }
+
+            ]
+            }
+            zingchart.render({
+                id: "chart-2",
+                data: chartData,
+            })
+        }
+        
+    </script>   
 {%endblock content%}

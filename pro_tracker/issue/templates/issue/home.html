@@ -2,15 +2,18 @@
 {% block content %}
   <div class="col-md-9">
     {% if posts.first.completed %}
-    <div class="col-md-5">
-      <h1 style="align-content: center;">Archives</h1>
+      <h1 style="display:inline-block;"class="d-flex justify-content-center">
+        <a style="color:grey;"href="{% url 'issue-home' %}" class="mr-2">   Current Issues</a>
+        <u>Archives</u> 
+      </h1>
       <br>
-    </div>
     {% else %}
-    <div class="col-md-5">
-      <h1 style="align-content: center;">Current Issues</h1>
+      <h1 style="display:inline-block;"class="d-flex justify-content-center">
+        <u>Current Issues</u> 
+        <a style="color:grey;"href="{% url 'issue-archive' %}" class="ml-2">   Archives</a>
+
+      </h1>
       <br>
-    </div>
     {%endif%}
     {% for post in posts %}
       <article class="media content-section">

@@ -3,13 +3,15 @@
 <div class="col-md-9">
     <div class="content-section">
         <div class="media">
-        <img class="rounded-circle account-img" src="{{ this_user.profile.image.url }}">
-        <div class="media-body">
-            <h2 class="account-heading">{{this_user.username}}</h2>
-            <p class="text-secondary"> Email: {{this_user.email}}</p>
-            {% if self.request.user is this_user %}<small class="text-muted"><a href="{% url 'update_profile' %}">Update Profile</a></small>
-            {% endif %}
-        </div>
+            <img class="rounded-circle account-img" src="{{ this_user.profile.image.url }}">
+            <div class="media-body">
+                <h2 class="account-heading">{{this_user.username}}</h2>
+                <p class="text-secondary"> Email: {{this_user.email}}</p>
+                <p class="text-secondary"><a href="{% url 'old-user-issues' this_user.username %}">View {{this_user.username}}'s archives</a></p>
+                {% if user is this_user %}
+                    <small class="text-muted"><a href="{% url 'update_profile' %}">Update Profile</a></small>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
@@ -22,6 +24,14 @@
         {% endif %}
     {% else %}
         <p class ="mb-3">Nothing to show here...</p>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
     {% endif %}
     {% for post in posts %}
     <article class="media content-section">
@@ -38,30 +48,29 @@
 
 <!--Pagintion code-->
     <div class="d-flex justify-content-center">
-    {% if posts.has_other_pages %}
+        {% if posts.has_other_pages %}
 
-        {% if posts.has_previous %}
-            <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ posts.previous_page_number }}">
-                <<
-            </a>
-        {% endif %}
-
-        {% for num in posts.paginator.page_range %}
-            {% if posts.number == num %}
-                <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ num }}">{{num}}</a>
-            {% elif num > posts.number|add:'-2' and num < posts.number|add:'2' %}
-                <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ num }}">{{num}}</a>
+            {% if posts.has_previous %}
+                <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ posts.previous_page_number }}">
+                    <<
+                </a>
             {% endif %}
-        {% endfor %}
 
-        {% if posts.has_next %}
-            <a class="btn btn-outline-info mb-4 mr-2" href="?page={{posts.next_page_number}}">
-                >>
-            </a>
+            {% for num in posts.paginator.page_range %}
+                {% if posts.number == num %}
+                    <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ num }}">{{num}}</a>
+                {% elif num > posts.number|add:'-2' and num < posts.number|add:'2' %}
+                    <a class="btn btn-outline-info mb-4 mr-2" href="?page={{ num }}">{{num}}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if posts.has_next %}
+                <a class="btn btn-outline-info mb-4 mr-2" href="?page={{posts.next_page_number}}">
+                    >>
+                </a>
+            {% endif %}
+
         {% endif %}
-
-    {% endif %}
-        </div>
     </div>
 </div>
 {%endblock content%}

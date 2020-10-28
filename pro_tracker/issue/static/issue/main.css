@@ -12,6 +12,30 @@ body {
     margin: 0;
   }
   
+  footer{
+    bottom: 0;
+    position:fixed;
+  }
+    footer a{
+      color: #222;
+    }
+  
+    footer a:hover{
+      color: #ffffff;
+      text-decoration: none;    
+    }
+    /* .footer-link {
+      color: white;
+    }
+    
+    .footer-link:hover {
+      color: pink;
+    }
+    
+    .footer-link.active {
+      font-weight: 500;
+    } */
+
   .bg-steel {
     background-color: rgb(223, 25, 85);
   }
@@ -82,4 +106,5 @@ body {
   .account-heading {
     font-size: 2.5rem;
   }
+
   

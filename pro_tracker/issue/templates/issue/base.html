@@ -8,6 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!--Own css-->
     <link rel="stylesheet" type="text/css" href="{% static 'issue/main.css' %}">
     <title>Issues</title>
@@ -98,15 +99,18 @@
         <!-- Links -->
         <h5 class="text-uppercase" style="color: honeydew">Links</h5>
 
-        <ul class="list-unstyled" style="color: honeydew;">
+        <ul class="list-unstyled">
           <li>
-            <a style="color: honeydew;" href="#!">Dashboard</a>
+            <a style="color: honeydew;" href="{% url 'dashboard' %}">Dashboard</a>
           </li>
           <li>
-            <a href="#!">Issues</a>
+            <a style="color: honeydew;" href="{% url 'issue-home' %}">Issues</a>
           </li>
           <li>
-            <a href="#!">Create</a>
+            <a style="color: honeydew;" href="{% url 'issue-archive' %}">Archives</a>
+          </li>
+          <li>
+            <a style="color: honeydew;" href="{% url 'issue-create' %}">Create</a>
           </li>
         </ul>
 
@@ -118,13 +122,16 @@
 
         <!-- Links -->
         <h5 class="text-uppercase"style="color: honeydew">Contact me!</h5>
-
         <ul class="list-unstyled">
           <li>
-            <a href="#!">E-Mail</a>
+            <a class="fb-ic mb-3" style="color: honeydew"href="shirin.kaul11@gmail.com"> Email
+              <!-- <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x" style="color: honeydew;"> </i> -->
+            </a>
           </li>
           <li>
-            <a href="#!">LinkedIn</a>
+            <a class="li-ic mb-3" style="color: honeydew" href="https://www.linkedin.com/in/shirin-kaul-b09282190/"> LinkedIn
+              <!-- <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x" style="color: honeydew;"> </i> -->
+            </a>
           </li>
         </ul>
 
@@ -138,8 +145,7 @@
   <!-- Footer Links -->
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2020 Copyright:
-    <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+  <div style="color: honeydew;"class="footer-copyright text-center py-3">© 2020 Copyright: Shirin Kaul
   </div>
   <!-- Copyright -->
 

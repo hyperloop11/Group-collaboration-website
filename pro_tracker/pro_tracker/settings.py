@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'issue.apps.IssueConfig',
     'users.apps.UsersConfig',
     'markdownx',
+    'channels',
     'crispy_forms',
     'ckeditor_uploader',
     'ckeditor',
@@ -75,6 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pro_tracker.wsgi.application'
+ASGI_APPLICATION = 'pro_tracker.routing.application'
 
 
 # Database

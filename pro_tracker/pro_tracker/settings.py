@@ -34,8 +34,9 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'issue.apps.IssueConfig',
     'users.apps.UsersConfig',
+    'notice',
     'markdownx',
-    'channels',
+    'notifications',
     'crispy_forms',
     'ckeditor_uploader',
     'ckeditor',
@@ -76,7 +77,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pro_tracker.wsgi.application'
-ASGI_APPLICATION = 'pro_tracker.routing.application'
+ASGI_APPLICATION = 'users.routing.application'
 
 
 # Database

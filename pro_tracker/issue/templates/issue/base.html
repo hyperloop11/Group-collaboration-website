@@ -1,4 +1,7 @@
 {% load static %}
+{% load notifications_tags %}
+{% notifications_unread as unread_count %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +50,20 @@
                 </li>
                 <!--end collapsable menu-->
                   <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-                  <a class="nav-item nav-link" href="#">Notifs</a>
+                  <a class="nav-item nav-link" href="{% url 'notice:list' %}">
+                    {% if unread_count %}
+                      <svg viewBox="0 0 8 8"
+                          width="8px"
+                          height="8px">
+                          <circle cx="4"
+                                  cy="4"
+                                  r="4"
+                                  fill="#ff6b6b"
+                                  ></circle>
+                      </svg>
+                    {% endif %}
+                    Notifs
+                  </a>
                 {% else %}
                   <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                   <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
@@ -72,85 +88,15 @@
           <h4>Nothing to show here!</h4>
           {% endblock %}
       </main>
+<div style="width: 100%; height: 70px;background-color:  rgb(223, 25, 85);">
+  <br>
+  <div class="d-flex justify-content-center" style="color: white">© 2020 Copyright :
+    <a href="#" style="color: white;"> Shirin Kaul</a>
+  </div>
+</div>
       <!-- Footer -->
-<footer class="page-footer font-small pt-4" style="background-color:  rgb(223, 25, 85)">
+      
 
-  <!-- Footer Links -->
-  <div class="container-fluid text-center text-md-left" style="color: honeydew;">
-
-    <!-- Grid row -->
-    <div class="row">
-
-      <!-- Grid column -->
-      <div class="col-md-6 mt-md-0 mt-3">
-
-        <!-- Content -->
-        <h5 class="text-uppercase" style="color: honeydew;">Pro-tracker</h5>
-        <p>A progress tracking and management tool for fast, productive and smart people who meet deadlines.</p>
-
-      </div>
-      <!-- Grid column -->
-
-      <hr class="clearfix w-100 d-md-none pb-3">
-
-      <!-- Grid column -->
-      <div class="col-md-3 mb-md-0 mb-3">
-
-        <!-- Links -->
-        <h5 class="text-uppercase" style="color: honeydew">Links</h5>
-
-        <ul class="list-unstyled">
-          <li>
-            <a style="color: honeydew;" href="{% url 'dashboard' %}">Dashboard</a>
-          </li>
-          <li>
-            <a style="color: honeydew;" href="{% url 'issue-home' %}">Issues</a>
-          </li>
-          <li>
-            <a style="color: honeydew;" href="{% url 'issue-archive' %}">Archives</a>
-          </li>
-          <li>
-            <a style="color: honeydew;" href="{% url 'issue-create' %}">Create</a>
-          </li>
-        </ul>
-
-      </div>
-      <!-- Grid column -->
-
-      <!-- Grid column -->
-      <div class="col-md-3 mb-md-0 mb-3">
-
-        <!-- Links -->
-        <h5 class="text-uppercase"style="color: honeydew">Contact me!</h5>
-        <ul class="list-unstyled">
-          <li>
-            <a class="fb-ic mb-3" style="color: honeydew"href="shirin.kaul11@gmail.com"> Email
-              <!-- <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x" style="color: honeydew;"> </i> -->
-            </a>
-          </li>
-          <li>
-            <a class="li-ic mb-3" style="color: honeydew" href="https://www.linkedin.com/in/shirin-kaul-b09282190/"> LinkedIn
-              <!-- <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x" style="color: honeydew;"> </i> -->
-            </a>
-          </li>
-        </ul>
-
-      </div>
-      <!-- Grid column -->
-
-    </div>
-    <!-- Grid row -->
-
-  </div>
-  <!-- Footer Links -->
-
-  <!-- Copyright -->
-  <div style="color: honeydew;"class="footer-copyright text-center py-3">© 2020 Copyright: Shirin Kaul
-  </div>
-  <!-- Copyright -->
-
-</footer>
-<!-- Footer -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -159,5 +105,6 @@
     <link rel="stylesheet" href="{% static 'ckeditor/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css' %}" /> 
     <script src="{% static 'ckeditor/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>
     <script>hljs.initHighlightingOnLoad();</script> 
+    
 </body>
 </html>

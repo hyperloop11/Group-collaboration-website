@@ -10,6 +10,7 @@ from .forms import IssueUpdateForm, CommentForm
 from django.views.generic.edit import FormMixin
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from notifications.signals import notify
 
 def home(request):
     context = {
@@ -53,6 +54,15 @@ class IssueDetailView(FormMixin, DetailView):
         self.object = self.get_object()
         form = self.get_form()
         if form.is_valid():
+            curr_issue = Issue.objects.get(pk=self.object.id)
+            for user in curr_issue.author.all() :
+                if self.request.user != user:
+                    notify.send(
+                            request.user,
+                            recipient=user,
+                            verb = 'commented on your issue',
+                            target=curr_issue,
+                        )
             return self.form_valid(form)
         else:
             return self.form_invalid(form)

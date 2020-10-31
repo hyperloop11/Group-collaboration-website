@@ -25,6 +25,7 @@ from django.contrib.auth.decorators import login_required
 from ckeditor_uploader import views
 from django.conf.urls import url
 from django.views.decorators.cache import never_cache
+import notifications.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -42,7 +43,9 @@ urlpatterns = [
     url(r'^ckeditor/browse/', never_cache(login_required(views.browse)), name='ckeditor_browse'),
     path('',user_views.dashboard, name="dashboard"),
     path('priority_data/', user_views.result_data, name="priority"),
-    path('finished_data/', user_views.finished_data, name="finished")
+    path('finished_data/', user_views.finished_data, name="finished"),
+    path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
+    path('notifications/', include('notice.urls', namespace='notice'))
 ]
 
 if settings.DEBUG:

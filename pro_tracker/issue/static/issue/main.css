@@ -12,18 +12,6 @@ body {
     margin: 0;
   }
   
-  footer{
-    bottom: 0;
-    position:fixed;
-  }
-    footer a{
-      color: #222;
-    }
-  
-    footer a:hover{
-      color: #ffffff;
-      text-decoration: none;    
-    }
     /* .footer-link {
       color: white;
     }

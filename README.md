@@ -2,7 +2,7 @@
 A progress tracking and management tool for fast, productive and smart people who meet deadlines. Due to its simplistic design and intutive workflow, its an ideal collaborative work tool for school and college clubs.
 
 # Run locally
-Install the requirements for the project using the requirements.txt file in pro_racker directory. Use the command:
+Install the requirements for the project using the requirements.txt file in ```pro_racker``` directory. Use the command:
 ```
 pip3 install -r requirements.txt
 ```

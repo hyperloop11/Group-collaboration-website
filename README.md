@@ -35,7 +35,7 @@ pip3 install -r requirements.txt
 
 ## Create your own issue
 
-![](images/issue-page)
+![](images/issue-page.png)
 ***
 
 ## See all importnat things together on with a personalized dashboard

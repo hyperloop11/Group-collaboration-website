@@ -22,3 +22,26 @@ pip3 install -r requirements.txt
 11. Another chart displays number of high, medium and low priority tasks you have left unfinished.
 12. Next, the dashboard displays the unfinished projects, sorted by their priorities so that you can get straight to work without wasting time thinking about what to do next!
 
+#Images
+A list of all issues in a club
+[]("images/main-page/png")
+
+
+Details of the issue
+[]("images/main-issue-page.png")
+
+
+Create your own issue
+![]("images/issue-page")
+
+
+See all importnat things together on with a personalized dashboard
+![]("images/dashboard.png")
+
+
+Your own profile with all your work in one place.
+![]("images/profile-github.png")
+
+
+Get instantly notified when someone comments on your issues
+![]("images/notif-github.png")

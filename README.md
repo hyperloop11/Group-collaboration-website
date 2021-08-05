@@ -1,14 +1,17 @@
-# Pro-tracker
-A progress tracking and management tool for fast, productive and smart people who meet deadlines. Due to its simplistic design and intutive workflow, its an ideal collaborative work tool for school and college clubs.
+# <p align ="center"> :heavy_check_mark: Pro Tracker</p>
+### A progress tracking and management tool for fast, productive and smart people who meet deadlines. Due to its simplistic design and intutive workflow, its an ideal collaborative work tool for school and college clubs.
+<hr>
 
-# Run locally
+# :gear: Run locally
+![python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=darkgreen) ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) ![CSS](https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white) ![django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white) ![Javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) 
+
 Install the requirements for the project using the requirements.txt file in ```pro_tracker``` directory. Use the command:
 ```
 pip3 install -r requirements.txt
 ```
 
 
-# Features 
+# :pushpin: Features 
 1. Create issues, assign multiple people to the same issue.
 2. Prioritize your work, by adding a priority status to your issues.
 3. Update the issues, adding or removing assigned users, changing priority, etc.
@@ -22,7 +25,7 @@ pip3 install -r requirements.txt
 11. Another chart displays number of high, medium and low priority tasks you have left unfinished.
 12. Next, the dashboard displays the unfinished projects, sorted by their priorities so that you can get straight to work without wasting time thinking about what to do next!
 
-# Images
+# :books: Screenshots
 
 ## A list of all issues in a club
 ![](images/main-page.png)
